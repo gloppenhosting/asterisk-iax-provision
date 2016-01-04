@@ -40,10 +40,19 @@ domain.run(function () {
     .delete()
     .then(trx.commit)
     .catch(trx.rollback);
+
+    knex('parkinglots')
+    .where('iaxfriends_name', hostname)
+    .update({
+      iaxfriends_name: null
+    })
+    .then(trx.commit)
+    .catch(trx.rollback);
+
   })
   .then(function(resp) {
     if (debug) {
-      console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Cleaned up', resp, 'rows in call_channels');
+      console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Cleaned up', resp, 'rows in call_channels and parkinglots');
     }
 
     process.exit(0);
