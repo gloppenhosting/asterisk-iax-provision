@@ -1,0 +1,18 @@
+{
+  "debug": false,
+  "update_interval_sec": 5,
+  "mysql": {
+    "host"     : "",
+    "user"     : "",
+    "password" : "",
+    "database" : ""
+  },
+  "asterisk": {
+    "iaxtable" : "iaxfriends"
+  },
+  "aws": {
+    "accessKeyId": "",
+    "secretAccessKey": "",
+    "region": "eu-west-1"
+  }
+}
