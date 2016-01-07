@@ -54,13 +54,6 @@ domain.run(function () {
 
   // only update route 53 if public ip changes!
   var last_known_external_ip = null;
-  var aws_health_check_id = null;
-
-  fs.readFile('config/aws_health_check_id', 'utf8', function (err,data) {
-    if (!err) {
-      aws_health_check_id = data;
-    }
-  });
 
   // Create update function for update timer
   var update = function() {
@@ -76,11 +69,13 @@ domain.run(function () {
       external_ip_address = ip;
 
       // check if we already have the info from the host in iax friends. If not then insert, else update it!
-      // TODO: Put in knex transaction on this!
       knex
       .select('id', 'hostname')
       .from(asterisk_config.get('iaxtable'))
       .where('name', hostname)
+      .orWhere('local_ip', internal_ip_address)
+      .orWhere('ipaddr', external_ip_address)
+      .limit(1)
       .asCallback(function(err, rows) {
         if (err) throw err;
 
@@ -201,6 +196,7 @@ domain.run(function () {
               if (debug) {
                 console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Updated Amazon Route53 DNS', serverobj.hostname, 'with public ip', external_ip_address);
               }
+
               last_known_external_ip = external_ip_address;
             }
             else {
@@ -213,8 +209,9 @@ domain.run(function () {
 
   };
 
-  if (debug)
+  if (debug) {
     console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Will update', asterisk_config.get('iaxtable'), 'every', config.get('update_interval_sec'), 'seconds with peer information');
+  }
 
   // Lets update on first run!
   update();

@@ -49,10 +49,18 @@ domain.run(function () {
     .then(trx.commit)
     .catch(trx.rollback);
 
+    knex('queues_meta')
+    .where('iaxfriends_name', hostname)
+    .update({
+      iaxfriends_name: null
+    })
+    .then(trx.commit)
+    .catch(trx.rollback);
+
   })
   .then(function(resp) {
     if (debug) {
-      console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Cleaned up', resp, 'rows in call_channels and parkinglots');
+      console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Cleaned up', resp, 'rows in call_channels, queues_meta and parkinglots');
     }
 
     process.exit(0);
