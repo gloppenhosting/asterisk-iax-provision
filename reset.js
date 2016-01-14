@@ -34,29 +34,28 @@ domain.run(function () {
   var hostname = os.hostname();
 
   knex.transaction(function(trx) {
-    knex('call_channels')
-    .where('caller_server', hostname)
-    .orWhere('callee_server', hostname)
-    .delete()
-    .then(trx.commit)
-    .catch(trx.rollback);
-
-    knex('parkinglots')
-    .where('iaxfriends_name', hostname)
-    .update({
-      iaxfriends_name: null
-    })
-    .then(trx.commit)
-    .catch(trx.rollback);
-
-    knex('queues_meta')
-    .where('iaxfriends_name', hostname)
-    .update({
-      iaxfriends_name: null
-    })
-    .then(trx.commit)
-    .catch(trx.rollback);
-
+      trx('call_channels')
+      .where('caller_server', hostname)
+      .orWhere('callee_server', hostname)
+      .delete()
+      .then(function (){
+          trx('parkinglots')
+          .where('iaxfriends_name', hostname)
+          .update({
+            iaxfriends_name: null
+          })
+          .then(function () {
+              trx('queues_meta')
+              .where('iaxfriends_name', hostname)
+              .update({
+                iaxfriends_name: null
+              })
+              .then(trx.commit)
+              .catch(trx.rollback);
+          })
+          .catch(trx.rollback);
+      })
+      .catch(trx.rollback);
   })
   .then(function(resp) {
     if (debug) {

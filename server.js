@@ -123,7 +123,7 @@ domain.run(function () {
           }
 
           knex.transaction(function(trx) {
-            knex
+            trx
             .where('name', '=', hostname)
             .update(serverobj)
             .into(asterisk_config.get('iaxtable'))
@@ -151,7 +151,7 @@ domain.run(function () {
           serverobj.hostname = md5(hostname) + '-voip-aws-eu.publicdns.zone';
 
           knex.transaction(function(trx) {
-            knex
+            trx
             .insert(serverobj)
             .into(asterisk_config.get('iaxtable'))
             .then(trx.commit)
