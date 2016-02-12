@@ -33,6 +33,10 @@ domain.run(function () {
       user     : (process.env.MYSQL_USER || mysql_config.get('user') || 'root'),
       password : (process.env.MYSQL_PASSWORD || mysql_config.get('password') || ''),
       database : (process.env.MYSQL_DB || mysql_config.get('database') || 'asterisk')
+    },
+    pool: {
+        min: 1,
+        max: 1
     }
   });
 
