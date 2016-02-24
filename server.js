@@ -35,8 +35,12 @@ domain.run(function () {
       database : (process.env.MYSQL_DB || mysql_config.get('database') || 'asterisk')
     },
     pool: {
+        ping: function(connection, callback) {
+            connection.query({text: 'SELECT 1 = 1'}, [], callback);
+        },
+        pingTimeout: 3*1000,
         min: 1,
-        max: 1
+        max: 2
     }
   });
 
