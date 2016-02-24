@@ -36,7 +36,7 @@ domain.run(function () {
     },
     pool: {
         ping: function(connection, callback) {
-            connection.query({text: 'SELECT 1 = 1'}, [], callback);
+            connection.query({sql: 'SELECT 1 = 1'}, [], callback);
         },
         pingTimeout: 3*1000,
         min: 1,
