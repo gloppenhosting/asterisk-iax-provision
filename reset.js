@@ -56,7 +56,7 @@ domain.run(function () {
               })
               .then(function () {
                   trx('iaxfriends')
-                  .where('iaxfriends_name', hostname)
+                  .where('name', hostname)
                   .increment('restarts', 1)
                   .then(trx.commit)
                   .catch(trx.rollback);
