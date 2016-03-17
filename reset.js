@@ -46,15 +46,21 @@ domain.run(function () {
           trx('parkinglots')
           .where('iaxfriends_name', hostname)
           .update({
-            iaxfriends_name: null
+              iaxfriends_name: null
           })
           .then(function () {
               trx('queues_meta')
               .where('iaxfriends_name', hostname)
               .update({
-                iaxfriends_name: null
+                  iaxfriends_name: null
               })
-              .then(trx.commit)
+              .then(function () {
+                  trx('iaxfriends')
+                  .where('iaxfriends_name', hostname)
+                  .increment('restarts', 1)
+                  .then(trx.commit)
+                  .catch(trx.rollback);
+              })
               .catch(trx.rollback);
           })
           .catch(trx.rollback);
