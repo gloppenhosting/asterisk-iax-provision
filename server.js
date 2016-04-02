@@ -49,7 +49,7 @@ domain.run(function () {
 
   var externalIP = extIP({
       replace: true,
-      services: ['http://ifconfig.co/x-real-ip', 'http://ifconfig.io/ip'],
+      services: ['http://ip.tyk.nu'],
       timeout: 600,
       getIP: 'parallel'
   });
@@ -76,7 +76,7 @@ domain.run(function () {
 
     // Grab external ip
     externalIP(function (err, ip) {
-      if (err) throw err;
+      if (err) return;
       external_ip_address = ip;
 
       // check if we already have the info from the host in iax friends. If not then insert, else update it!
