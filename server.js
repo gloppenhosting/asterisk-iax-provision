@@ -231,6 +231,6 @@ domain.run(function () {
   var update_timer = setInterval(function() {
     update();
   },
-    (config.get('update_interval_sec') * 1000)
+    (config.get('update_interval_sec') * 1000 * 3)
   );
 });
