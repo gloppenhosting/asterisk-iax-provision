@@ -27,7 +27,7 @@ domain.run(function () {
 
   var knex = require('knex')(
   {
-    client: 'mysql2',
+    client: 'mysql',
     connection: {
       host     : (process.env.MYSQL_HOST || mysql_config.get('host') || '127.0.0.1'),
       user     : (process.env.MYSQL_USER || mysql_config.get('user') || 'root'),
@@ -35,10 +35,13 @@ domain.run(function () {
       database : (process.env.MYSQL_DB || mysql_config.get('database') || 'asterisk')
     },
     pool: {
-        ping: function(connection, callback) {
-            connection.query({sql: 'SELECT 1 = 1'}, [], callback);
+        ping: function ping(connection, callback) {
+            try {
+                connection.ping(callback);
+            } catch (err) {
+                process.nextTick(callback.bind(null, err));
+            }
         },
-        pingTimeout: 3*1000,
         min: 1,
         max: 2
     }
@@ -85,7 +88,7 @@ domain.run(function () {
       .orWhere('ipaddr', external_ip_address)
       .limit(1)
       .asCallback(function(err, rows) {
-        if (err) throw err;
+        if (err) return;
 
         // Define our iaxfriends object from our database table
         var serverobj = {
