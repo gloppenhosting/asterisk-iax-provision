@@ -14,6 +14,7 @@ var md5 = require('md5');
 var debug = process.env.NODE_DEBUG || config.get('debug') || true;
 var AWS = require('aws-sdk');
 var fs = require('fs');
+var heartBeatInterval = null;
 
 // On any errors. Write them to console and exit program with error code
 domain.on('error', function (err) {
@@ -46,6 +47,22 @@ domain.run(function () {
         max: 2
     }
   });
+
+  if (heartBeatInterval) {
+      clearInterval(heartBeatInterval)
+      heartBeatInterval = null;
+  }
+
+  heartBeatInterval = setInterval(function() {
+      knex.raw('SELECT 1=1')
+          .then(function() {
+              //  log.info('heartbeat sent');
+          })
+          .catch(function(err) {
+              console.error('Knex heartbeat error, shutting down', err);
+              process.exit(1);
+          })
+  }, 10000);
 
   var externalIP = extIP({
       replace: true,
