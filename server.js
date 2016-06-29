@@ -124,6 +124,7 @@ domain.run(function () {
           transfer: 'mediaonly',
           jitterbuffer: 'yes',
           disallow: 'all',
+          timezone: 'Europe/Oslo',
           qualify: 'yes',
           qualifyfreqok: 60000,
           qualifyfreqnotok: 10000,
