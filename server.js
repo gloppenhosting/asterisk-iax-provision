@@ -124,7 +124,7 @@ domain.run(function() {
                         ipaddr: external_ip_address,
                         port: 4569,
                         mask: '255.255.255.255',
-                        trunk: 'yes',
+                        trunk: 'no',
                         encryption: 'yes',
                         transfer: 'mediaonly',
                         jitterbuffer: 'yes',
@@ -137,7 +137,7 @@ domain.run(function() {
                         is_upstream: hostname.indexOf('upstream') > -1 ? 1 : 0,
                         inkeys: 'IAXTrunk',
                         outkeys: 'IAXTrunk',
-                        allow: 'ulaw,alaw',
+                        allow: 'alaw,ulaw',
                         manager_password: 'WLhQWSbPzMvsnq1W',
                         ari_password: 'oPNl8mGtWNBcWS6l'
                             //auth: 'rsa',
