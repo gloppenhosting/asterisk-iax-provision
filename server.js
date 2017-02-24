@@ -138,7 +138,7 @@ domain.run(function() {
                         is_upstream: hostname.indexOf('upstream') > -1 ? 1 : 0,
                         inkeys: 'IAXTrunk',
                         outkeys: 'IAXTrunk',
-                        allow: 'ulaw,alaw',
+                        allow: 'g722,ulaw,alaw',
                         manager_password: 'WLhQWSbPzMvsnq1W',
                         ari_password: 'oPNl8mGtWNBcWS6l'
                             //auth: 'rsa',
