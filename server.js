@@ -125,7 +125,7 @@ domain.run(function() {
                         port: 4569,
                         mask: '255.255.255.255',
                         trunk: 'yes',
-                        encryption: 'yes',
+                        encryption: 'no',
                         transfer: 'mediaonly',
                         jitterbuffer: 'no',
                         forcejitterbuffer: 'no',
