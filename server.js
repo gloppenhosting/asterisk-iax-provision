@@ -124,7 +124,7 @@ domain.run(function() {
                         ipaddr: external_ip_address,
                         port: 4569,
                         mask: '255.255.255.255',
-                        trunk: 'yes',
+                        trunk: 'no',
                         encryption: 'no',
                         transfer: 'mediaonly',
                         jitterbuffer: 'no',
